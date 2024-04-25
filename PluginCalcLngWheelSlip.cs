@@ -391,15 +391,26 @@ namespace Viper.PluginCalcLngWheelSlip
                                     full wheel lock: (50 m/s - 0 m/s) / 50 m/s = 1
                                     wheel spins with double car speed: (50 m/s - 100 m/s) / 50 m/s = -1
                                 */
+                                // if(!F1x && curGame != "EAWRC23")
+                                // {
+                                //     LngWheelSlip[i] = (Speedms - TyreDiameter[i] * TyreRPS[i] / 2) / Speedms;
+                                // }
+                                // else
+                                // {
+                                //     // F1 games TyreRPS = Wheel Speed directly
+                                //     LngWheelSlip[i] = (Speedms - TyreRPS[i]) / Speedms;
+                                // }
+                                float wheel_speed;
                                 if(!F1x && curGame != "EAWRC23")
                                 {
-                                    LngWheelSlip[i] = (Speedms - TyreDiameter[i] * TyreRPS[i] / 2) / Speedms;
+                                    wheel_speed = TyreDiameter[i] * TyreRPS[i] / 2;
                                 }
                                 else
                                 {
                                     // F1 games TyreRPS = Wheel Speed directly
-                                    LngWheelSlip[i] = (Speedms - TyreRPS[i]) / Speedms;
+                                    wheel_speed = TyreRPS[i];
                                 }
+                                LngWheelSlip[i] = (Speedms - wheel_speed) / Math.Max(Speedms, wheel_speed);
                                 
                                 //don't show wheel lock below 1 m/s
                                 if (LngWheelSlip[i] > 0 && Speedms < 1)

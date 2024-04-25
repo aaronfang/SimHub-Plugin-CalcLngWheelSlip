@@ -1,3 +1,18 @@
+# Changes made based on the original version:
+I've tweaked the formula for calculating the slip rate.
+```
+slip_ratio = (vehicle_speed - wheel_speed) / max(vehicle_speed, wheel_speed)
+```
+The formula now uses the maximum value between wheel speed and vehicle speed as the denominator, whereas before, it only used the vehicle speed.  
+POS：  
+- If the vehicle's speed is zero but the wheels are still spinning (like when the car is doing a burnout), then this formula could lead to a divide-by-zero error.
+- When the speed of the vehicle is greater than the wheel speed (like when the wheels are locked), or when the wheel speed is greater than the vehicle speed (like when the wheels are spinning), using the vehicle speed as the denominator can cause the slip rate to be less than -1 or more than 1. This might make it tricky to interpret the slip rate, because usually, we'd expect it to be between -1 and 1.  
+
+Added an indicator to show when the vehicle is currently in a locked or skidding condition.
+<img src="docs/brake_indicator.png" width="40%" height="40%">  
+<img src="docs/throttle_indicator.png" width="40%" height="40%">
+
+
 # SimHub-Plugin: Calculate Longitudinal Wheel Slip
 This is a plugin for [SimHub](http://www.simhubdash.com/)
 
